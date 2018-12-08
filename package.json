@@ -1,0 +1,35 @@
+{
+  "name": "dlboilerplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "budo App.ts --live -- -t [babelify --presets es2015] -t glslify -t aliasify -p tsify",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/three": "^0.92.17",
+    "aliasify": "^2.1.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2017": "^6.24.1",
+    "babelify": "^8.0.0",
+    "budo": "^11.5.0",
+    "dat.gui": "^0.7.3",
+    "event-emitter": "^0.3.5",
+    "glsl-fxaa": "^3.0.0",
+    "glslify": "^6.1.1",
+    "gsap": "^1.20.4",
+    "three": "^0.95.0",
+    "tsify": "^4.0.0",
+    "typescript": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^10.9.4",
+    "budo": "^11.2.0",
+    "uglify-js": "^3.3.16",
+    "uglifyify": "^4.0.5"
+  }
+}
