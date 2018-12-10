@@ -17,19 +17,8 @@ interface IVelocitySimUniforms {
     uPos: { type: string, value: WebGLRenderTarget | Texture | null }
 
     uTarget: { type: string, value: Vector3}    
-    
-    uSeparationSpeed: {type: string, value: number}
-    uSeparationForce: {type: string, value: number}
-    
-    uAlignSpeed: {type: string, value: number}
-    uAlignForce: {type: string, value: number}
-    
-    uCohesionSpeed: {type: string, value: number}
-    uCohesionForce: {type: string, value: number}
 
-    uSteerSpeed: {type: string, value: number}
-    uSteerForce: {type: string, value: number}
-
+    uMaxForce: {type: string, value: number}
     uMaxSpeed: {type: string, value: number}
 
     uSeparationDist: {type: string, value: number}
@@ -92,18 +81,7 @@ export default class VelocitySim extends PingPongBuffer {
             uVel: { type: 't', value: null },
             uPos: {type: 't', value: null},
 
-            uSeparationSpeed: {type: 'f', value: params.separationSpeed},
-            uSeparationForce: {type: 'f', value: params.separationForce},
-            
-            uAlignSpeed: {type: 'f', value: params.alignSpeed},
-            uAlignForce: {type: 'f', value: params.alignForce},
-            
-            uCohesionSpeed: {type: 'f', value: params.cohesionSpeed},
-            uCohesionForce: {type: 'f', value: params.cohesionForce},
-
-            uSteerSpeed: {type: 'f', value: params.steerSpeed},
-            uSteerForce: {type: 'f', value: params.steerForce},
-
+            uMaxForce: {type: 'f', value: params.maxSpeed},
             uMaxSpeed: {type: 'f', value: params.maxSpeed},
 
             uSeparationDist: {type: 'f', value: params.separationDist},
@@ -185,18 +163,7 @@ export default class VelocitySim extends PingPongBuffer {
 
         const params = (<any>window).params;
 
-        (<RawShaderMaterial>this.renderQuad.material).uniforms['uSeparationSpeed'].value  = params.separationSpeed;
-        (<RawShaderMaterial>this.renderQuad.material).uniforms['uSeparationForce'].value  = params.separationForce;
-        
-        (<RawShaderMaterial>this.renderQuad.material).uniforms['uAlignSpeed'].value  = params.alignSpeed;
-        (<RawShaderMaterial>this.renderQuad.material).uniforms['uAlignForce'].value  = params.alignForce;
-
-        (<RawShaderMaterial>this.renderQuad.material).uniforms['uCohesionSpeed'].value  = params.cohesionSpeed;
-        (<RawShaderMaterial>this.renderQuad.material).uniforms['uCohesionForce'].value  = params.cohesionForce;
-
-        (<RawShaderMaterial>this.renderQuad.material).uniforms['uSteerSpeed'].value  = params.steerSpeed;
-        (<RawShaderMaterial>this.renderQuad.material).uniforms['uSteerForce'].value  = params.steerForce;
-
+        (<RawShaderMaterial>this.renderQuad.material).uniforms['uMaxForce'].value  = params.maxSpeed;
         (<RawShaderMaterial>this.renderQuad.material).uniforms['uMaxSpeed'].value  = params.maxSpeed;
 
         (<RawShaderMaterial>this.renderQuad.material).uniforms['uSeparationDist'].value  = params.separationDist;
