@@ -78,6 +78,7 @@ class EventEmitter {
 
     private onTouchStart = (event): void => {
 
+        event.preventDefault();
         this.emitter.emit('touchStart', event);
         renderer.domElement.addEventListener('touchmove', this.onTouchMove);
         renderer.domElement.addEventListener('touchend', this.onTouchEnd);
@@ -87,12 +88,14 @@ class EventEmitter {
 
     private onTouchMove = (event): void => {
 
+        event.preventDefault();
         this.emitter.emit('touchMove', event);
 
     }
 
     private onTouchEnd = (event): void => {
 
+        // event.preventDefault();
         this.emitter.emit('touchEnd', event);
         renderer.domElement.removeEventListener('touchmove', this.onTouchMove);
         renderer.domElement.removeEventListener('touchend', this.onTouchEnd);
@@ -101,7 +104,8 @@ class EventEmitter {
 
     private onOrientationChange = (event): void => {
 
-        this.emitter.emit('orientationChanged', event);
+        //https://stackoverflow.com/questions/12452349/mobile-viewport-height-after-orientation-change
+        setTimeout(() => this.emitter.emit('orientationChanged', event) , 500.0);
 
     };
 

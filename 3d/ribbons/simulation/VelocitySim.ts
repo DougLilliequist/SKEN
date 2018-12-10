@@ -29,6 +29,10 @@ interface IVelocitySimUniforms {
 
     uSteerSpeed: {type: string, value: number}
     uSteerForce: {type: string, value: number}
+    uCorrectionSpeed: {type: string, value: number}
+    uCorrectionForce: {type: string, value: number}
+    uDivergenceSpeed: {type: string, value: number}
+    uDivergenceForce: {type: string, value: number}
 
     uMaxSpeed: {type: string, value: number}
 
@@ -38,6 +42,8 @@ interface IVelocitySimUniforms {
     uBounds: {type: string, value: number}
 
     uSteerK: {type: string, value: number}
+    uDivergenceK: {type: string, value: number}
+    uCorrectionK: {type: string, value: number}
     uSeparationK: {type: string, value: number}
     uAlignmentK: {type: string, value: number}
     uCohesionK: {type: string, value: number}
@@ -104,6 +110,11 @@ export default class VelocitySim extends PingPongBuffer {
             uSteerSpeed: {type: 'f', value: params.steerSpeed},
             uSteerForce: {type: 'f', value: params.steerForce},
 
+            uCorrectionSpeed: {type: 'f', value: params.correctionSpeed},
+            uCorrectionForce: {type: 'f', value: params.correctionForce},
+            uDivergenceSpeed: {type: 'f', value: params.divergenceSpeed},
+            uDivergenceForce: {type: 'f', value: params.divergenceForce},
+
             uMaxSpeed: {type: 'f', value: params.maxSpeed},
 
             uSeparationDist: {type: 'f', value: params.separationDist},
@@ -112,6 +123,8 @@ export default class VelocitySim extends PingPongBuffer {
             uBounds: {type: 'f', value: params.bounds},
 
             uSteerK: {type: 'f', value: params.steerK},
+            uDivergenceK: {type: 'f', value: params.divergenceK},
+            uCorrectionK: {type: 'f', value: params.correctionK},
             uSeparationK: {type: 'f', value: params.separationK},
             uAlignmentK: {type: 'f', value: params.alignmentK},
             uCohesionK: {type: 'f', value: params.cohesionK},

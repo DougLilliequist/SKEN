@@ -51,7 +51,7 @@ export default class Target extends Object3D {
 
         this.params = {
 
-            maxSpeed: 20,
+            maxSpeed: 15,
             maxForce: 0.8
 
         }
@@ -65,7 +65,7 @@ export default class Target extends Object3D {
 
             position: new Vector3(0.0, 0.0, 0.0),
             origin: new Vector3(0.0, 0.0, 0.0),
-            updateTime: 5.0,
+            updateTime: 10.0,
             updateTimeCounter: 0.0,
             maxRadius: window.innerWidth * 0.35
 
@@ -113,7 +113,7 @@ export default class Target extends Object3D {
 
         if(this.modeState) this.modeState.kill();
 
-        this.modeState = TweenLite.delayedCall(0.1, () => {
+        this.modeState = TweenLite.delayedCall(1.5, () => {
 
             this.mode = false;
 

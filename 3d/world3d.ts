@@ -125,6 +125,7 @@ export default class World3D {
         if(this.isMobile) {
 
             emitter.on('orientationChanged', this.onOrientationChange);
+            this.orbitControls.enabled = false;
             
         } else {
 
@@ -185,10 +186,7 @@ export default class World3D {
     }
 
     private onOrientationChange = (event): void => {
-
-        //https://stackoverflow.com/questions/12452349/mobile-viewport-height-after-orientation-change
-        setTimeout(() => {
-
+            
             this.width = window.innerWidth;
             this.height = window.innerHeight;
 
@@ -197,8 +195,6 @@ export default class World3D {
     
             this.renderer.setSize(this.width, this.height);
             
-        }, 1.0)
-
     }
 
 }

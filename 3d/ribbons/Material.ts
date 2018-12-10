@@ -15,7 +15,7 @@ export default class Material extends RawShaderMaterial {
 
     constructor(ribbonCount: number, count: number, isMobile: boolean = false) {
 
-        const tex: Texture = new TextureLoader().load('./assets/lightColors.png');
+        const tex: Texture = new TextureLoader().load('./assets/colors.png');
         tex.wrapS = ClampToEdgeWrapping;
         tex.wrapT = ClampToEdgeWrapping;
         tex.minFilter = NearestFilter;

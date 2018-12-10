@@ -17,6 +17,12 @@ uniform float uCohesionForce;
 uniform float uSteerSpeed;
 uniform float uSteerForce;
 
+uniform float uCorrectionSpeed;
+uniform float uCorrectionForce;
+
+uniform float uDivergenceSpeed;
+uniform float uDivergenceForce;
+
 uniform float uMaxSpeed;
 
 uniform float uSeparationDist;
@@ -25,6 +31,8 @@ uniform float uCohesionDist;
 uniform float uBounds;
         
 uniform float uSteerK;
+uniform float uCorrectionK;
+uniform float uDivergenceK;
 uniform float uSeparationK;
 uniform float uAlignmentK;
 uniform float uCohesionK;
@@ -38,6 +46,9 @@ varying vec2 vUV;
 #define PI 3.14159265359
 #define PI2 3.14159265359 * 2.0
 
+// #define separationDistSq uSeparationDist * uSeparationDist
+// #define alignDistSq uAlignDist * uAlignDist
+// #define cohesionDistSq uCohesionDist * uCohesionDist
 
 vec3 seek(in vec3 target, in vec3 pos, in vec3 vel, float s, float f, float k) {
 
@@ -86,7 +97,7 @@ void main() {
             float uvYFloor = floor(vUV.y * float(HEIGHT)); 
             if(vFloor == uvYFloor) continue;
 
-            vec2 coord = vec2(0.5, (v + 0.5) / float(HEIGHT));
+            vec2 coord = vec2(0.5, (vFloor + 0.5) / float(HEIGHT));
 
             vec3 otherPos = texture2D(uPos, coord).xyz;
 
@@ -111,60 +122,48 @@ void main() {
                 alignment += velOther;
                 alignCount++;
 
-                cohesion += otherPos;
-                cohesionCount++;
+                // cohesion += otherPos;
+                // cohesionCount++;
 
             } else if(distSq < cohesionDistSq) {
 
-                // cohesion += otherPos;
-                // cohesionCount++;
+                // float k = distSq / cohesionDistSq;
+
+                cohesion += otherPos * 1.0;
+                cohesionCount++;
 
             }
 
         }
 
     }
-
-    // if(separateCount > 0.0) {
     
     float applySeparation = step(0.0, separateCount);
     separation *= (1.0 / separateCount);
     vec3 separationForce = seekwDesired(separation, vel, uSeparationSpeed, uSeparationForce, uSeparationK);
-    // acc -= separationForce * applySeparation;
-    acc -= separationForce;
-
-    // }
-
-    // if(alignCount > 0.0) {
+    acc -= separationForce * applySeparation;
 
     float applyAlignment = step(0.0, alignCount);
     alignment *= (1.0 / alignCount);
     vec3 alignmentForce = seekwDesired(alignment, vel, uAlignSpeed, uAlignForce, uAlignmentK);
     acc += alignmentForce * applyAlignment;
-        // acc += alignmentForce;
 
-    // }
-
-    // if(cohesionCount > 0.0) {
-
-    float applyCohesion = step(1.0, cohesionCount);
+    float applyCohesion = step(0.0, cohesionCount);
     cohesion *= (1.0 / cohesionCount);
     vec3 cohesionForce = seek(cohesion, pos, vel, uCohesionSpeed, uCohesionForce, uCohesionK);
     acc += cohesionForce * applyCohesion;
-        // acc += cohesionForce;
-
-    // }
 
     float applyCorrectionForce = step((uBounds * uBounds), dot(pos, pos));
     float correctionForceK = dot(pos, pos) - (uBounds * uBounds);
     vec3 target = normalize(pos) * correctionForceK;
-    acc -= seek(target, pos, vel, 15.0, 0.8, uSteerK) * applyCorrectionForce;
+    acc -= seek(target, pos, vel, uCorrectionSpeed, uCorrectionForce, uCorrectionK) * applyCorrectionForce;
 
-    // float applyDivergence = step((40.0 * 40.0), dot(uTarget - pos, uTarget - pos));
-    // vec3 up = cross(uTarget - pos, vec3(1.0, 0.0, 0.0));
-    // vec3 diverge = cross(uTarget - pos, up);
-    // diverge.x *= sign(pos.x);
-    // acc += seek(diverge, pos, vel, uSteerSpeed, uSteerForce, uSteerK) * applyDivergence;
+    //make a uniform for diverge
+    float applyDivergence = step((40.0 * 40.0), dot(uTarget - pos, uTarget - pos));
+    vec3 up = cross(uTarget - pos, vec3(1.0, 0.0, 0.0));
+    vec3 divergence = cross(uTarget - pos, up);
+    divergence.x *= sign(pos.x);
+    acc += seek(divergence, pos, vel, uDivergenceSpeed, uDivergenceForce, uDivergenceK) * applyDivergence;
     
     // acc += seek(vec3(0.0), pos, vel, uSteerSpeed, uSteerForce, uSteerK);
     acc += seek(uTarget, pos, vel, uSteerSpeed, uSteerForce, uSteerK);
