@@ -19,8 +19,8 @@ export default class Material extends RawShaderMaterial {
         const tex: Texture = new TextureLoader().load('./assets/colors.png');
         tex.wrapS = ClampToEdgeWrapping;
         tex.wrapT = ClampToEdgeWrapping;
-        tex.minFilter = LinearFilter;
-        tex.magFilter = LinearFilter;
+        tex.minFilter = NearestFilter;
+        tex.magFilter = NearestFilter;
 
         const u: ILightUniforms = {
 

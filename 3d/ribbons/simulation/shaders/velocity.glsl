@@ -162,9 +162,18 @@ void main() {
     float applyDivergence = step((40.0 * 40.0), dot(uTarget - pos, uTarget - pos));
     vec3 up = cross(uTarget - pos, vec3(1.0, 0.0, 0.0));
     vec3 divergence = cross(uTarget - pos, up);
-    divergence.x *= sign(pos.x);
+    divergence.x *= normalize(pos).x;
+    // divergence.x *= normalize((uTarget - pos)).x;
     acc += seek(divergence, pos, vel, uDivergenceSpeed, uDivergenceForce, uDivergenceK) * applyDivergence;
-    
+    // acc += seekwDesired(divergence, vel, uDivergenceSpeed, uDivergenceForce, uDivergenceK) * applyDivergence;
+
+    // float applyDivergence = step((40.0 * 40.0), dot(uTarget - pos, uTarget - pos));
+    // vec3 up = cross(uTarget - pos, vec3(1.0, 0.0, 0.0));
+    // vec3 side = cross(up, vec3(0.0, 0.0, 1.0));
+    // vec3 divergence = cross(side, up);
+    // divergence.x *= normalize(pos).x;
+    // acc += seek(divergence, pos, vel, uDivergenceSpeed, uDivergenceForce, uDivergenceK) * applyDivergence;
+
     // acc += seek(vec3(0.0), pos, vel, uSteerSpeed, uSteerForce, uSteerK);
     acc += seek(uTarget, pos, vel, uSteerSpeed, uSteerForce, uSteerK);
 

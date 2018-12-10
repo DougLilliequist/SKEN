@@ -25,5 +25,5 @@ class Renderer extends WebGLRenderer {
 
 }
 
-const renderer = new Renderer({antialias: true, precision: 'mediump'});
+const renderer = new Renderer({antialias: false, precision: 'mediump'});
 export default renderer;

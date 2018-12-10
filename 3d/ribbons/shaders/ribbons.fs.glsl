@@ -12,14 +12,14 @@ uniform float uTime;
 #define octaves 4
 #define spatialF 1.0
 #define temporalF 1.0
-#define fallOff 0.83
+#define fallOff 0.54
 
 #define m3 (0.00, 0.80, 0.60, -0.80, 0.36, -0.48, -0.60, -0.48, 0.64)
 
 float sinNoise31(vec3 st, float k) {
 
     st.xy *= spatialF;
-    st.z *= temporalF + k;
+    st.z *= temporalF;
 
     float a = 1.0;
     float f = 1.0;
@@ -42,8 +42,9 @@ float sinNoise31(vec3 st, float k) {
 
 void main() {
 
-    float noise = sinNoise31(vec3(vUV, uTime), vColorIndex) * 0.5 + 0.5;
-    float colorIndex = ((noise * (textureSize.x - 1.0)) + 0.5) / textureSize.x;
+    // float noise = sinNoise31(vec3(vUV, uTime), vColorIndex) * 0.5 + 0.5;
+    // float colorIndex = ((noise * (textureSize.x - 1.0)) + 0.5) / textureSize.x;
+    float colorIndex = (floor(vColorIndex * textureSize.x) + 0.5) / textureSize.x;
     
     vec3 lightCol = texture2D(uColor, vec2(colorIndex, 0.5)).xyz;
     float phase = smoothstep(1.0, 0.0, vUV.x);

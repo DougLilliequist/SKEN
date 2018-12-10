@@ -51,8 +51,8 @@ export default class Target extends Object3D {
 
         this.params = {
 
-            maxSpeed: 15,
-            maxForce: 0.8
+            maxSpeed: 20,
+            maxForce: 0.5
 
         }
 
@@ -65,9 +65,9 @@ export default class Target extends Object3D {
 
             position: new Vector3(0.0, 0.0, 0.0),
             origin: new Vector3(0.0, 0.0, 0.0),
-            updateTime: 10.0,
+            updateTime: 5.0,
             updateTimeCounter: 0.0,
-            maxRadius: window.innerWidth * 0.35
+            maxRadius: window.innerWidth * 1.0
 
         }
 
@@ -186,7 +186,7 @@ export default class Target extends Object3D {
 
     private onResize = (): void => {
 
-        this.steerLocation.maxRadius = window.innerWidth * 0.35;
+        this.steerLocation.maxRadius = window.innerWidth * 1.0;
 
     }
 
@@ -195,7 +195,7 @@ export default class Target extends Object3D {
         //https://stackoverflow.com/questions/12452349/mobile-viewport-height-after-orientation-change
         setTimeout(() => {
 
-            this.steerLocation.maxRadius = window.innerWidth * 0.35;
+            this.steerLocation.maxRadius = window.innerWidth * 1.0;
             
         }, 1.0)
 

@@ -105,6 +105,7 @@ export default class World3D {
 
         this.ribbonCount = this.isMobile == false ? 128.0 : 64.0;    
         this.ribbons = new Ribbons(this.renderer, this.ribbonCount, this.isMobile); 
+
         this.target = new Target(this.isMobile);
        
         this.scene.add(this.ribbons);

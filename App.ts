@@ -9,7 +9,7 @@ class App {
 
             separationDist: 120.0,
             alignDist: 240.0,
-            cohesionDist: 350.0,
+            cohesionDist: 300.0,
             bounds: 1188.0,
 
             separationSpeed: 35.0,
@@ -19,7 +19,7 @@ class App {
             alignForce: 0.8,
 
             cohesionSpeed: 35.0,
-            cohesionForce: 0.8,
+            cohesionForce: 1.4,
 
             steerSpeed: 35.0,
             steerForce: 0.9,
@@ -32,7 +32,7 @@ class App {
 
             maxSpeed: 45.0,
 
-            steerK: 0.8,
+            steerK: 0.9,
             divergenceK: 0.8,
             correctionK: 0.8,
             separationK: 2.0,
