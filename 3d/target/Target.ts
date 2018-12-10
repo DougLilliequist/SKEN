@@ -52,7 +52,7 @@ export default class Target extends Object3D {
         this.params = {
 
             maxSpeed: 20,
-            maxForce: 0.3
+            maxForce: 0.8
 
         }
 

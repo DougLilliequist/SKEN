@@ -86,8 +86,7 @@ void main() {
             float uvYFloor = floor(vUV.y * float(HEIGHT)); 
             if(vFloor == uvYFloor) continue;
 
-            // vec2 coord = vec2(0.5, (vUV.y + 0.5) / float(HEIGHT));
-            vec2 coord = vec2(0.0, vUV.y / float(HEIGHT));
+            vec2 coord = vec2(0.5, (v + 0.5) / float(HEIGHT));
 
             vec3 otherPos = texture2D(uPos, coord).xyz;
 
@@ -102,8 +101,8 @@ void main() {
 
                 // float k = distSq / (uSeparationDist * uSeparationDist);
                 float k = max(distSq / separationDistSq, 0.0);
-                vec3 d = dir * (1.0 - k);
-                separation += d;
+                vec3 separationDir = dir * (1.0 - k);
+                separation += separationDir;
                 separateCount++;
 
             } else if(distSq < alignDistSq) {
@@ -112,13 +111,13 @@ void main() {
                 alignment += velOther;
                 alignCount++;
 
-                // cohesion += otherPos;
-                // cohesionCount++;
+                cohesion += otherPos;
+                cohesionCount++;
 
             } else if(distSq < cohesionDistSq) {
 
-                cohesion += otherPos;
-                cohesionCount++;
+                // cohesion += otherPos;
+                // cohesionCount++;
 
             }
 
@@ -126,41 +125,40 @@ void main() {
 
     }
 
-    if(separateCount > 0.0) {
+    // if(separateCount > 0.0) {
     
-        // float applySeparation = step(0.0, separateCount);
-        separation *= (1.0 / separateCount);
-        vec3 separationForce = seekwDesired(separation, vel, uSeparationSpeed, uSeparationForce, uSeparationK);
-        // acc -= separationForce * applySeparation;
-        acc -= separationForce;
+    float applySeparation = step(0.0, separateCount);
+    separation *= (1.0 / separateCount);
+    vec3 separationForce = seekwDesired(separation, vel, uSeparationSpeed, uSeparationForce, uSeparationK);
+    // acc -= separationForce * applySeparation;
+    acc -= separationForce;
 
-    }
+    // }
 
-    if(alignCount > 0.0) {
+    // if(alignCount > 0.0) {
 
-        // float applyAlignment = step(0.0, alignCount);
-        alignment *= (1.0 / alignCount);
-        vec3 alignmentForce = seekwDesired(alignment, vel, uAlignSpeed, uAlignForce, uAlignmentK);
-        // acc += alignmentForce * applyAlignment;
-        acc += alignmentForce;
+    float applyAlignment = step(0.0, alignCount);
+    alignment *= (1.0 / alignCount);
+    vec3 alignmentForce = seekwDesired(alignment, vel, uAlignSpeed, uAlignForce, uAlignmentK);
+    acc += alignmentForce * applyAlignment;
+        // acc += alignmentForce;
 
-    }
+    // }
 
-    if(cohesionCount > 0.0) {
+    // if(cohesionCount > 0.0) {
 
-        // float applyCohesion = step(1.0, cohesionCount);
-        // cohesion *= (1.0 / cohesionCount);
-        cohesion /= cohesionCount;
-        vec3 cohesionForce = seek(cohesion, pos, vel, uCohesionSpeed, uCohesionForce, uCohesionK);
-        // acc += cohesionForce * applyCohesion;
-        acc += cohesionForce;
+    float applyCohesion = step(1.0, cohesionCount);
+    cohesion *= (1.0 / cohesionCount);
+    vec3 cohesionForce = seek(cohesion, pos, vel, uCohesionSpeed, uCohesionForce, uCohesionK);
+    acc += cohesionForce * applyCohesion;
+        // acc += cohesionForce;
 
-    }
+    // }
 
     float applyCorrectionForce = step((uBounds * uBounds), dot(pos, pos));
     float correctionForceK = dot(pos, pos) - (uBounds * uBounds);
     vec3 target = normalize(pos) * correctionForceK;
-    // acc -= seek(target, pos, vel, 15.0, 0.8, uSteerK) * applyCorrectionForce;
+    acc -= seek(target, pos, vel, 15.0, 0.8, uSteerK) * applyCorrectionForce;
 
     // float applyDivergence = step((40.0 * 40.0), dot(uTarget - pos, uTarget - pos));
     // vec3 up = cross(uTarget - pos, vec3(1.0, 0.0, 0.0));
@@ -168,8 +166,8 @@ void main() {
     // diverge.x *= sign(pos.x);
     // acc += seek(diverge, pos, vel, uSteerSpeed, uSteerForce, uSteerK) * applyDivergence;
     
-    acc += seek(vec3(0.0), pos, vel, uSteerSpeed, uSteerForce, uSteerK);
-    // acc += seek(uTarget, pos, vel, uSteerSpeed, uSteerForce, uSteerK);
+    // acc += seek(vec3(0.0), pos, vel, uSteerSpeed, uSteerForce, uSteerK);
+    acc += seek(uTarget, pos, vel, uSteerSpeed, uSteerForce, uSteerK);
 
     vel += acc;
     

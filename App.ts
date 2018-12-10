@@ -10,7 +10,7 @@ class App {
             separationDist: 45.0,
             alignDist: 50.0,
             cohesionDist: 100.0,
-            bounds: 1500.0,
+            bounds: 700.0,
 
             steerSpeed: 10.0,
             steerForce: 0.2,
@@ -43,7 +43,7 @@ class App {
         (<any>window).gui.add(params, 'separationDist', 0, 500);
         (<any>window).gui.add(params, 'alignDist', 0, 500);
         (<any>window).gui.add(params, 'cohesionDist', 0, 500);
-        (<any>window).gui.add(params, 'bounds', 0, 1000);
+        (<any>window).gui.add(params, 'bounds', 0, 2000);
 
         (<any>window).gui.addFolder('speeds and forces');
         (<any>window).gui.add(params, 'separationSpeed', 0, 50);
