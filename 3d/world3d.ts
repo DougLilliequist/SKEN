@@ -30,10 +30,8 @@ export default class World3D {
     private ribbonCount: number;
     private target: Target;
 
-    private cube: THREE.Mesh;
-
     private time: THREE.Clock;
-    private mouse: any; //fix type
+    private mouse: any;
     private touch: Touch;
 
     constructor() {

@@ -3,7 +3,6 @@ precision mediump float;
 uniform sampler2D uColor;
 
 varying vec2 vUV;
-varying vec3 vPos;
 varying float vColorIndex;
 
 #define textureSize vec2(4.0, 1.0)

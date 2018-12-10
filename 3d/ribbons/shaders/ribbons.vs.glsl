@@ -87,7 +87,6 @@ void main() {
     gl_Position = pos;
     
     vUV = uv;
-    vPos = pos.xyz;
     vColorIndex = hash11(position.y + params.x);
 
 }

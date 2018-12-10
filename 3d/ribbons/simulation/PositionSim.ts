@@ -28,8 +28,6 @@ export default class PositionSim extends PingPongBuffer {
         this.width = w;
         this.height = h;
 
-        console.log(this.width)
-
         this.initSimData();
         this.initSimMaterial();
 
@@ -54,8 +52,6 @@ export default class PositionSim extends PingPongBuffer {
             uResolution: {type: 'v2', value: new Vector2(window.innerWidth, window.innerHeight)}
 
         }
-
-        console.log(u);
 
         const vShader = glslify('./shaders/simQuad.glsl');
         const fShader = glslify('./shaders/position.glsl');
