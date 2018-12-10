@@ -61,14 +61,6 @@ void main() {
 
     vec2 dir = vec2(0.0, 0.0);
 
-    // // vec2 prevToCurrent = screenPos - screenPosPrev;
-    // // vec2 currentToNext = screenPosNext - screenPos;
-
-    // // dir = normalize(prevToCurrent + currentToNext);
-    
-    // // dir = mix(dir, normalize(screenPosNext - screenPos), isEqual(screenPos, screenPosPrev));
-    // // dir = mix(dir, normalize(screenPos - screenPosPrev), isEqual(screenPos, screenPosNext));
-
     if(screenPos == screenPosPrev) {
 
         dir = normalize(screenPosNext - screenPos);
@@ -93,10 +85,9 @@ void main() {
     pos.xy += p;
 
     gl_Position = pos;
-    // gl_PointSize = 5.0;
     
     vUV = uv;
     vPos = pos.xyz;
-    vColorIndex = hash11(position.y * params.x);
+    vColorIndex = hash11(position.y + params.x);
 
 }

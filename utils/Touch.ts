@@ -129,8 +129,6 @@ export default class Touch {
 
     }
 
-    //TODO add mouse force
-
     private updateScalars(): void {
 
         this.width = window.innerWidth;

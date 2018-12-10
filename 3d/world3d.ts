@@ -69,12 +69,9 @@ export default class World3D {
         } else if(isDesktop) {
 
             this.isMobile = false;
+            this.mouse = mouse;
 
         }
-
-        this.mouse = mouse;
-
-        // this.interactionState = true;
 
     }
 
@@ -93,11 +90,6 @@ export default class World3D {
         this.orbitControls.enabled = true;
 
         this.time = new THREE.Clock();
-
-        this.cube = new THREE.Mesh(
-        new THREE.BoxGeometry(10, 10, 10, 1, 1, 1), 
-        new THREE.MeshBasicMaterial({color: 0xff0000}));
-        // this.scene.add(this.cube);
 
     };
 
@@ -138,9 +130,13 @@ export default class World3D {
     private render(): void {
 
         if(!this.renderToScreen) {
+            
             this.post.render(this.renderer, this.scene, this.camera)
+        
         } else {
+          
             this.renderer.render(this.scene, this.camera);
+        
         }
 
     }
@@ -163,10 +159,7 @@ export default class World3D {
         }
 
         this.ribbons.update(this.renderer, this.target.position, t);
-        
-        
-        // this.cube.position.copy(this.target.position);
-        
+                
         this.render();
 
     };
@@ -175,8 +168,6 @@ export default class World3D {
 
         this.width = window.innerWidth;
         this.height = window.innerHeight;
-
-        console.log(this.width);
 
         this.camera.aspect = this.width / this.height;
         this.camera.updateProjectionMatrix();

@@ -57,12 +57,9 @@ export default class Geometry extends BufferGeometry {
         }
 
         const indexDataCount: number = ribbonCount * (segmentCount - 1) * 6.0; //still a weird assignment
-
         const indexData: Uint16Array = new Uint16Array(indexDataCount);
         let indexIterator: number = 0.0;
         let indexOffset: number = 0.0;
-
-        //subtract 1, because each segment will contain indicies for 6 vertices
 
         for(let i = 0; i < ribbonCount; i++) {
 

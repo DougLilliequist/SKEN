@@ -25,8 +25,6 @@ interface ISteerLocation {
 export default class Target extends Object3D {
 
     private params: ITargetSteerParams;
-    private origin: Vector3;
-    private prevPosition: Vector3;
     private acc: Vector3;
     private vel: Vector3;
 
@@ -55,8 +53,6 @@ export default class Target extends Object3D {
             maxForce: 0.5
 
         }
-
-        this.prevPosition = new Vector3(0.0, 0.0, 0.0);
 
         this.acc = new Vector3(0.0, 0.0, 0.0);
         this.vel = new Vector3(0.0, 0.0, 0.0);
@@ -102,13 +98,6 @@ export default class Target extends Object3D {
 
     }
 
-    private onMouseDown = (): void => {
-
-        this.mode = true;
-        this.prevPosition.copy(this.position);
-
-    }
-
     private onInteraction = (): void => {
 
         if(this.modeState) this.modeState.kill();
@@ -120,20 +109,6 @@ export default class Target extends Object3D {
         });
 
         this.mode = true;
-
-    }
-
-    private onMouseUp = (): void => { 
-
-        this.mode = false;
-
-    }
-
-    //rename
-    private onUpdateWorldPos = (v: Vector3): void => {
-
-        this.steerLocation.origin.copy(v);
-        this.steerLocation.position.copy(this.generateNewSteerTarget());
 
     }
 

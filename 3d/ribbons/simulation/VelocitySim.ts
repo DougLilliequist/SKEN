@@ -94,7 +94,6 @@ export default class VelocitySim extends PingPongBuffer {
 
         const u: IVelocitySimUniforms = {
 
-
             uVel: { type: 't', value: null },
             uPos: {type: 't', value: null},
 
@@ -128,28 +127,6 @@ export default class VelocitySim extends PingPongBuffer {
             uSeparationK: {type: 'f', value: params.separationK},
             uAlignmentK: {type: 'f', value: params.alignmentK},
             uCohesionK: {type: 'f', value: params.cohesionK},
-                
-            // uSeparationSpeed: {type: 'f', value: 35.0},
-            // uSeparationForce: {type: 'f', value: 1.2},
-            
-            // uAlignSpeed: {type: 'f', value: 35.0},
-            // uAlignForce: {type: 'f', value: 1.2},
-            
-            // uCohesionSpeed: {type: 'f', value: 35.0},
-            // uCohesionForce: {type: 'f', value: 0.9},
-
-            // uSteerSpeed: {type: 'f', value: 35.0},
-            // uSteerForce: {type: 'f', value: 1.2},
-
-            // uSeparationDist: {type: 'f', value: 50.0},
-            // uAlignDist: {type: 'f', value: 90.0},
-            // uCohesionDist: {type: 'f', value: 240},
-            // uBounds: {type: 'f', value: 1500.0},
-
-            // uSteerK: {type: 'f', value: 0.5},
-            // uSeparationK: {type: 'f', value: 1.5},
-            // uAlignmentK: {type: 'f', value: 1.0},
-            // uCohesionK: {type: 'f', value: 1.0},
 
             uTarget: { type: 'v3', value: new Vector3(0.0, 0.0, 0.0)},
 
