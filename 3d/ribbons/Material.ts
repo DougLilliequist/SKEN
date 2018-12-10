@@ -1,4 +1,4 @@
-import { RawShaderMaterial, DoubleSide, AdditiveBlending, Texture, TextureLoader, ClampToEdgeWrapping, NearestFilter, Vector2, WebGLRenderTarget } from 'three'
+import { RawShaderMaterial, DoubleSide, AdditiveBlending, Texture, TextureLoader, ClampToEdgeWrapping, NearestFilter, Vector2, WebGLRenderTarget, LinearFilter } from 'three'
 const glslify = require('glslify');
 
 interface ILightUniforms {
@@ -8,6 +8,7 @@ interface ILightUniforms {
     uPosition: {type: string, value: WebGLRenderTarget | Texture | null}
     uAspectRatio: {type: string, value: number}
     uTexelSize: {type: string, value: Vector2}
+    uTime: {type: string, value: number}
 
 }
 
@@ -18,8 +19,8 @@ export default class Material extends RawShaderMaterial {
         const tex: Texture = new TextureLoader().load('./assets/colors.png');
         tex.wrapS = ClampToEdgeWrapping;
         tex.wrapT = ClampToEdgeWrapping;
-        tex.minFilter = NearestFilter;
-        tex.magFilter = NearestFilter;
+        tex.minFilter = LinearFilter;
+        tex.magFilter = LinearFilter;
 
         const u: ILightUniforms = {
 
@@ -27,7 +28,8 @@ export default class Material extends RawShaderMaterial {
             uWidth: {type: 'f', value: isMobile == false ? 30.0 : 60.0},
             uPosition: {type: 't', value: null},
             uAspectRatio: {type: 'f', value: window.innerWidth / window.innerHeight},
-            uTexelSize: {type: 'v2', value: new Vector2(1.0 / count, 1.0 / ribbonCount)}
+            uTexelSize: {type: 'v2', value: new Vector2(1.0 / count, 1.0 / ribbonCount)},
+            uTime: {type: 'f', value: 0.0}
 
         }
 

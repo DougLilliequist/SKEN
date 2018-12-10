@@ -17,7 +17,7 @@ const emitter = eventEmitter.emitter;
 
     constructor(renderer: any, ribbonCount: number, isMobile: boolean = false) {
 
-        const segmentCount:number = isMobile == false ? 128.0 : 6.0; //move this somewhere else
+        const segmentCount:number = isMobile == false ? 128.0 : 64.0; //move this somewhere else
 
         const geo: Geometry = new Geometry(ribbonCount, segmentCount);
         const mat: Material = new Material(ribbonCount, segmentCount, isMobile);
@@ -48,8 +48,8 @@ const emitter = eventEmitter.emitter;
     public update(renderer: any, target: Vector3, t: number): void {
 
         this.simulator.update(renderer, target, t);
-
         this.positions = this.simulator.positions;
+        (<RawShaderMaterial>this.material).uniforms['uTime'].value = t;
 
     }
 

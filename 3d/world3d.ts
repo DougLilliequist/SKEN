@@ -86,7 +86,7 @@ export default class World3D {
 
         this.camera = new THREE.PerspectiveCamera(35, this.width / this.height, 0.1, 20000);
         
-        const cameraPos: THREE.Vector3 = this.isMobile == false ? new THREE.Vector3(0.0, 0.0, 1000.0) : new THREE.Vector3(0.0, 0.0, 2000.0);
+        const cameraPos: THREE.Vector3 = this.isMobile == false ? new THREE.Vector3(0.0, 0.0, 5000.0) : new THREE.Vector3(0.0, 0.0, 5000.0);
         this.camera.position.copy(cameraPos);
 
         this.orbitControls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -125,7 +125,6 @@ export default class World3D {
         if(this.isMobile) {
 
             emitter.on('orientationChanged', this.onOrientationChange);
-            this.orbitControls.enabled = false;
             
         } else {
 
@@ -162,7 +161,7 @@ export default class World3D {
         
         }
 
-        this.ribbons.update(this.renderer, this.target.position, dt);
+        this.ribbons.update(this.renderer, this.target.position, t);
         
         
         // this.cube.position.copy(this.target.position);
