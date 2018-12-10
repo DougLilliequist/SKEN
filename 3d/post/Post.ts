@@ -57,6 +57,7 @@ export default class Post extends Pass {
     private initEvents(): void {
 
         emitter.on('resizing', this.updateBufferSizes);
+        emitter.on('orientationChanged', this.updateBufferSizes);
 
     }
 
