@@ -89,7 +89,7 @@ void main() {
             float uvYFloor = floor(vUV.y * float(HEIGHT)); 
             if(vFloor == uvYFloor) continue;
 
-            vec2 coord = vec2(0.5, (vFloor) / float(HEIGHT));
+            vec2 coord = vec2(0.5, ((v + 0.5) / float(HEIGHT)));
 
             vec3 otherPos = texture2D(uPos, coord).xyz;
 
