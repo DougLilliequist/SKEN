@@ -40,9 +40,9 @@ export default class HeadPositionSim extends PingPongBuffer {
         
         for(let v = 0; v < this.height; v++) {
 
-            const x: number = ((Math.random() * 2.0) - 1.0) * 100.0;
-            const y: number = ((Math.random() * 2.0) - 1.0) * 100.0;
-            const z: number = ((Math.random() * 2.0) - 1.0) * 100.0;
+            const x: number = ((Math.random() * 2.0) - 1.0) * 150.0;
+            const y: number = ((Math.random() * 2.0) - 1.0) * 150.0;
+            const z: number = ((Math.random() * 2.0) - 1.0) * 150.0;
 
 
             for(let u = 0; u < this.width; u++) {

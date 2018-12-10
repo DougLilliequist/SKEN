@@ -1,7 +1,10 @@
 const ee = require('event-emitter');
+import renderer from '../3d/renderer';
 
 class EventEmitter {
+    
     public emitter: any;
+
     constructor() {
         this.initEmitter();
         this.initEvents();
@@ -13,12 +16,26 @@ class EventEmitter {
 
     initEvents() {
 
+        this.initDesktopEvents();
+        this.initMobileEvents();
         this.update();
+
+    }
+
+    private initDesktopEvents(): void {
+
         window.addEventListener('mousemove', this.onMouseMove);
         window.addEventListener('mousedown', this.onMouseDown);
         window.addEventListener('mouseup', this.onMouseUp);
         window.addEventListener('keydown', this.onKeyDown);
         window.addEventListener('resize', this.onResize);
+
+    }
+
+    private initMobileEvents(): void {
+
+        renderer.domElement.addEventListener('touchstart', this.onTouchStart);
+        window.addEventListener('orientationchange', this.onOrientationChange);
 
     }
 
@@ -51,11 +68,40 @@ class EventEmitter {
 
         this.emitter.emit('keyDown', event)
 
+    };
+
+    private onResize = (event): void => {
+
+        this.emitter.emit('resizing', event)
+
+    };
+
+    private onTouchStart = (event): void => {
+
+        this.emitter.emit('touchStart', event);
+        renderer.domElement.addEventListener('touchmove', this.onTouchMove);
+        renderer.domElement.addEventListener('touchend', this.onTouchEnd);
+        renderer.domElement.addEventListener('touchcancel', this.onTouchEnd);
+
     }
 
-    private onResize = () => {
+    private onTouchMove = (event): void => {
 
-        this.emitter.emit('resizing')
+        this.emitter.emit('touchMove', event);
+
+    }
+
+    private onTouchEnd = (event): void => {
+
+        this.emitter.emit('touchEnd', event);
+        renderer.domElement.removeEventListener('touchmove', this.onTouchMove);
+        renderer.domElement.removeEventListener('touchend', this.onTouchEnd);
+
+    }
+
+    private onOrientationChange = (event): void => {
+
+        this.emitter.emit('orientationChanged', event);
 
     };
 

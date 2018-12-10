@@ -13,7 +13,7 @@ interface ILightUniforms {
 
 export default class Material extends RawShaderMaterial {
 
-    constructor(ribbonCount: number, count: number) {
+    constructor(ribbonCount: number, count: number, isMobile: boolean = false) {
 
         const tex: Texture = new TextureLoader().load('./assets/lightColors.png');
         tex.wrapS = ClampToEdgeWrapping;
@@ -24,15 +24,15 @@ export default class Material extends RawShaderMaterial {
         const u: ILightUniforms = {
 
             uColor: {type: 't', value: tex},
-            uWidth: {type: 'f', value: 30.0},
+            uWidth: {type: 'f', value: isMobile == false ? 30.0 : 60.0},
             uPosition: {type: 't', value: null},
             uAspectRatio: {type: 'f', value: window.innerWidth / window.innerHeight},
             uTexelSize: {type: 'v2', value: new Vector2(1.0 / count, 1.0 / ribbonCount)}
 
         }
 
-        const vShader = glslify('./shaders/lightsgpu/lights.vs.glsl');
-        const fShader = glslify('./shaders/lightsgpu/lights.fs.glsl');
+        const vShader = glslify('./shaders/ribbons.vs.glsl');
+        const fShader = glslify('./shaders/ribbons.fs.glsl');
 
         super({uniforms: u, vertexShader: vShader, fragmentShader: fShader});
 

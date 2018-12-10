@@ -1,5 +1,7 @@
 import { Vector3, Object3D, Mesh, BoxBufferGeometry, MeshBasicMaterial } from 'three';
 
+import { TweenLite } from 'gsap';
+
 import eventEmitter from '../../utils/emitter';
 const emitter = eventEmitter.emitter;
 
@@ -31,15 +33,17 @@ export default class Target extends Object3D {
     private steerLocation: ISteerLocation;
     public mode: boolean;
 
+    private modeState: TweenLite.delayedCall;
+
     private debugger: Mesh;
 
-    constructor() {
+    constructor(isMobile: boolean = false) {
 
         super();
 
         this.init();
         this.initOriginDebugger();
-        this.initEvents();
+        this.initEvents(isMobile);
 
     }
 
@@ -48,7 +52,7 @@ export default class Target extends Object3D {
         this.params = {
 
             maxSpeed: 20,
-            maxForce: 0.4
+            maxForce: 0.3
 
         }
 
@@ -82,12 +86,19 @@ export default class Target extends Object3D {
 
     }
 
-    private initEvents(): void {
+    private initEvents(isMobile: boolean): void {
 
-        emitter.on('mouseDown', this.onMouseDown);
-        emitter.on('mouseUp', this.onMouseUp);
-        emitter.on('updateWorldPos', this.onUpdateWorldPos)
-        emitter.on('resizing', this.onResize)
+        if(isMobile) {
+
+            emitter.on('touchMove', this.onInteraction);
+            emitter.on('orientationChanged', this.onOrientationChange);
+
+        } else {
+
+            emitter.on('mouseMove', this.onInteraction);
+            emitter.on('resizing', this.onResize);
+
+        }
 
     }
 
@@ -95,6 +106,20 @@ export default class Target extends Object3D {
 
         this.mode = true;
         this.prevPosition.copy(this.position);
+
+    }
+
+    private onInteraction = (): void => {
+
+        if(this.modeState) this.modeState.kill();
+
+        this.modeState = TweenLite.delayedCall(0.1, () => {
+
+            this.mode = false;
+
+        });
+
+        this.mode = true;
 
     }
 
@@ -161,7 +186,18 @@ export default class Target extends Object3D {
 
     private onResize = (): void => {
 
-        this.steerLocation.maxRadius = window.innerWidth * 0.15;
+        this.steerLocation.maxRadius = window.innerWidth * 0.35;
+
+    }
+
+    private onOrientationChange = (event): void => {
+
+        //https://stackoverflow.com/questions/12452349/mobile-viewport-height-after-orientation-change
+        setTimeout(() => {
+
+            this.steerLocation.maxRadius = window.innerWidth * 0.35;
+            
+        }, 1.0)
 
     }
 

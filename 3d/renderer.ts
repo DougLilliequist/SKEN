@@ -16,7 +16,7 @@ class Renderer extends WebGLRenderer {
         this.domElement.style.left = '0';
         this.domElement.style.width = '100%';
         this.domElement.style.height = '100%';
-        this.domElement.style.zIndex = '1';
+        this.domElement.style.zIndex = '-1';
         this.domElement.style.overflow = 'hidden';
 
         document.body.appendChild(renderer.domElement);

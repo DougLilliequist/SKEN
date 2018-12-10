@@ -1,11 +1,9 @@
-import { Mesh, Points, RawShaderMaterial, Vector3, WebGLRenderTarget, Texture } from 'three';
+import { Mesh, RawShaderMaterial, Vector3, WebGLRenderTarget, Texture } from 'three';
 
-import Geometry from './Geometry2';
-import Material from './Material2';
+import Geometry from './Geometry';
+import Material from './Material';
 
 import Simulator from './simulation/Simulator';
-
-// import Flocking from './flocking/Flocking';
 
 import eventEmitter from '../../utils/emitter';
 const emitter = eventEmitter.emitter;
@@ -17,12 +15,12 @@ const emitter = eventEmitter.emitter;
 
     private simulator: Simulator;
 
-    constructor(renderer: any, ribbonCount: number) {
+    constructor(renderer: any, ribbonCount: number, isMobile: boolean = false) {
 
-        const segmentCount:number = 128.0; //move this somewhere else
+        const segmentCount:number = isMobile == false ? 6.0 : 64.0; //move this somewhere else
 
         const geo: Geometry = new Geometry(ribbonCount, segmentCount);
-        const mat: Material = new Material(ribbonCount, segmentCount);
+        const mat: Material = new Material(ribbonCount, segmentCount, isMobile);
         
         super(geo, mat);
 
