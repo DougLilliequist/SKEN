@@ -1,4 +1,4 @@
-precision mediump float;
+precision lowp float;
 
 uniform sampler2D uHeadPos;
 uniform sampler2D uPos;
