@@ -81,15 +81,14 @@ void main() {
     vec3 alignment = vec3(0.0);
     vec3 cohesion = vec3(0.0);
 
-    for(float v = 0.0; v < float(HEIGHT); v++) {
-        for(float u = 0.0; u < float(WIDTH); u++) {
-            
+    for(float v = 0.0; v < float(RIBBONCOUNT); v++) {
+
             //don't sample the same texel!           
             float vFloor = floor(v);
-            float uvYFloor = floor(vUV.y * float(HEIGHT)); 
+            float uvYFloor = floor(vUV.y * float(RIBBONCOUNT)); 
             if(vFloor == uvYFloor) continue;
 
-            vec2 coord = vec2(0.5, ((v + 0.5) / float(HEIGHT)));
+            vec2 coord = vec2(0.5, ((vFloor + 0.5) / float(RIBBONCOUNT)));
 
             vec3 otherPos = texture2D(uPos, coord).xyz;
 
@@ -99,7 +98,7 @@ void main() {
 
             vec3 dir = otherPos - pos;
             float distSq = dot(dir, dir);
-            // if(distSq < 0.0001) continue;
+            if(distSq < 0.00001) continue;
 
             if(distSq < separationDistSq) {
 
@@ -121,10 +120,7 @@ void main() {
 
             }
 
-        }
-
     }
-    
         
     float applySeparation = smoothstep(0.0, 1.0, separateCount);
     separation *= (1.0 / separateCount);

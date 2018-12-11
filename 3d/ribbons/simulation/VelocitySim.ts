@@ -6,8 +6,7 @@ const glslify = require('glslify');
 
 interface IVelocitySimDefines {
 
-    "WIDTH": number;
-    "HEIGHT": number;
+    "RIBBONCOUNT": number;
 
 }
 
@@ -85,8 +84,7 @@ export default class VelocitySim extends PingPongBuffer {
 
         const d: IVelocitySimDefines = {
 
-            "WIDTH": this.width,
-            "HEIGHT": this.height
+            "RIBBONCOUNT": this.height
 
         }
 
