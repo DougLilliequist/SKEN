@@ -32,7 +32,7 @@ export default class PingPongBuffer {
                 minFilter: NearestFilter,
                 magFilter: NearestFilter,
                 format: RGBAFormat,
-                type: HalfFloatType,
+                type: FloatType,
                 generateMipmaps: false,
                 depthBuffer: false,
                 stencilBuffer: false,

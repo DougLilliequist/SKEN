@@ -39,7 +39,6 @@ export default class World3D {
         this.init();
         this.initScene();
         this.initPost();
-
         this.initribbons();
         this.initEvents();
 

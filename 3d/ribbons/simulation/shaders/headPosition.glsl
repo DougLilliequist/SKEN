@@ -1,4 +1,4 @@
-precision lowp float;
+precision mediump float;
 
 uniform sampler2D uVel;
 uniform sampler2D uPos;

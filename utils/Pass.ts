@@ -54,6 +54,8 @@ export default class Pass {
         `;
 
         const fShader: string = `
+
+            precision mediump float;
         
             uniform sampler2D uTex;
             
