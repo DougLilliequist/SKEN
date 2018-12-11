@@ -9,17 +9,17 @@ export default class Simulator {
     private velocitySim: VelocitySim;
     private headPositionSim: HeadPositionSim;
 
-    constructor(renderer: any, width: number, height: number) {
+    constructor(renderer: any, isMobile: boolean, width: number, height: number) {
 
-        this.initSimulators(renderer, width, height);
+        this.initSimulators(renderer, isMobile, width, height);
 
     }
 
-    private initSimulators(renderer: any, width: number, height: number): void {
+    private initSimulators(renderer: any, isMobile: boolean, width: number, height: number): void {
 
-        this.positionSim = new PositionSim(width, height);
-        this.velocitySim = new VelocitySim(1.0, height);
-        this.headPositionSim = new HeadPositionSim(1.0, height);
+        this.positionSim = new PositionSim(width, height, isMobile);
+        this.velocitySim = new VelocitySim(1.0, height, isMobile);
+        this.headPositionSim = new HeadPositionSim(1.0, height, isMobile);
 
         this.headPositionSim.initSim(renderer);
         this.velocitySim.initSim(renderer);

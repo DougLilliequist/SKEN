@@ -16,7 +16,7 @@ export default class PingPongBuffer {
     public bufferA: WebGLRenderTarget;
     public bufferB: WebGLRenderTarget;
 
-    constructor(width: number = 1, height: number = 1) {
+    constructor(width: number = 1, height: number = 1, isMobile = false) {
 
         this.scene = new Scene();
         this.camera = new OrthographicCamera(-1.0, 1.0, 1.0, -1.0, 0.0000001, 1.0);
@@ -32,7 +32,7 @@ export default class PingPongBuffer {
                 minFilter: NearestFilter,
                 magFilter: NearestFilter,
                 format: RGBAFormat,
-                type: FloatType,
+                type: isMobile ? HalfFloatType : FloatType,
                 generateMipmaps: false,
                 depthBuffer: false,
                 stencilBuffer: false,

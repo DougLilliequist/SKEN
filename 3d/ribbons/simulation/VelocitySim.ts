@@ -60,9 +60,9 @@ export default class VelocitySim extends PingPongBuffer {
     private width: number;
     private height: number;
 
-    constructor(w: number, h: number) {
+    constructor(w: number, h: number, isMobile) {
 
-        super(w, h);
+        super(w, h, isMobile);
 
         this.width = w;
         this.height = h;

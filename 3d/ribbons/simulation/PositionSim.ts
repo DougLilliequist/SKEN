@@ -21,9 +21,9 @@ export default class PositionSim extends PingPongBuffer {
     private width: number;
     private height: number;
 
-    constructor(w: number, h: number) {
+    constructor(w: number, h: number, isMobile: boolean) {
 
-        super(w, h);
+        super(w, h, isMobile);
 
         this.width = w;
         this.height = h;

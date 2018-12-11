@@ -28,14 +28,14 @@ const emitter = eventEmitter.emitter;
         this.segmentCount = segmentCount;
         this.frustumCulled = false;
 
-        this.init(renderer);
+        this.init(renderer, isMobile);
         this.initEvents();
 
     }
 
-    private init(renderer: any): void {
+    private init(renderer: any, isMobile): void {
 
-        this.simulator = new Simulator(renderer, this.segmentCount, this.ribbonCount);
+        this.simulator = new Simulator(renderer, isMobile, this.segmentCount, this.ribbonCount);
 
     }
 
