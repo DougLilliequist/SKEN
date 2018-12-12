@@ -16,9 +16,9 @@ interface IUniforms {
 
 export default class RenderQuad extends Mesh {
 
-    constructor() {
+    constructor(width: number = 2.0, height: number = 2.0) {
 
-        const geo: PlaneBufferGeometry = new PlaneBufferGeometry(2, 2, 1, 1);
+        const geo: PlaneBufferGeometry = new PlaneBufferGeometry(width, height, 1, 1);
 
         const u: IUniforms = {
 

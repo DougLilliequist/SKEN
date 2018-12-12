@@ -37,7 +37,7 @@ export default class PositionSim extends PingPongBuffer {
 
         const positionDataCount: number = (this.width * this.height) * 4.0;
         const positionData: Float32Array = new Float32Array(positionDataCount);
-
+        // const positionData: Uint16Array = new Uint16Array(positionDataCount);
         this.simData = new SimData(positionData, this.width, this.height);
 
     }

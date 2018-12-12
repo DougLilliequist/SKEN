@@ -76,6 +76,7 @@ export default class VelocitySim extends PingPongBuffer {
 
         const velocityDataCount: number = (this.width * this.height) * 4.0;
         const velocityData: Float32Array = new Float32Array(velocityDataCount);
+        // const velocityData: Uint16Array = new Uint16Array(velocityDataCount);
         this.simData = new SimData(velocityData, this.width, this.height);
 
     }
@@ -188,7 +189,7 @@ export default class VelocitySim extends PingPongBuffer {
         (<RawShaderMaterial>this.renderQuad.material).uniforms['uMaxSpeed'].value  = params.maxSpeed;
 
         (<RawShaderMaterial>this.renderQuad.material).uniforms['uSeparationDist'].value  = params.separationDist;
-        (<RawShaderMaterial>this.renderQuad.material).uniforms['uAlignDist'].value  = params.alignDist;
+        (<RawShaderMaterial>this.renderQuad.material).uniforms['uAlignDist'].value = params.alignDist;
         (<RawShaderMaterial>this.renderQuad.material).uniforms['uCohesionDist'].value  = params.cohesionDist;
         (<RawShaderMaterial>this.renderQuad.material).uniforms['uBounds'].value  = params.bounds;
 

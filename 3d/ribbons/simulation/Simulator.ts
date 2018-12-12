@@ -49,7 +49,7 @@ export default class Simulator {
 
     get headPositions() {
 
-        return this.headPositions.bufferA;
+        return this.headPositionSim.bufferA;
 
     }
 

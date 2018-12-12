@@ -12,8 +12,9 @@ void main() {
     float colorIndex = (floor(vColorIndex * textureSize.x) + 0.5) / textureSize.x;
 
     vec3 lightCol = texture2D(uColor, vec2(colorIndex, 0.5)).xyz;
+        // vec3 lightCol = vec3(1.0);
     float phase = smoothstep(1.0, 0.0, vUV.x);
    
-    gl_FragColor = vec4(lightCol, phase);
+    gl_FragColor = vec4(lightCol, 1.0);
 
 }

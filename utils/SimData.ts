@@ -2,7 +2,7 @@ import {DataTexture, NearestFilter, ClampToEdgeWrapping, RGBAFormat, HalfFloatTy
 
 export default class SimData extends DataTexture {
 
-    constructor(data: Float32Array, w: number, h: number) {
+    constructor(data: Float32Array | Uint16Array, w: number, h: number, isMobile: boolean = false) {
 
         super(data, w, h);
 
@@ -11,6 +11,7 @@ export default class SimData extends DataTexture {
         this.wrapS = ClampToEdgeWrapping;
         this.wrapT = ClampToEdgeWrapping;
         this.format = RGBAFormat;
+        // this.type = isMobile ? HalfFloatType : FloatType;
         this.type = FloatType;
         this.generateMipmaps = false;
         this.flipY = false;

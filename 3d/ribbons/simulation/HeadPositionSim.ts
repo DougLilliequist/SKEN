@@ -35,6 +35,7 @@ export default class HeadPositionSim extends PingPongBuffer {
 
         const headPositionDataCount: number = (this.width * this.height) * 4.0;
         const headPositionData: Float32Array = new Float32Array(headPositionDataCount);
+        // const headPositionData: Uint16Array = new Uint16Array(headPositionDataCount);
 
         let headPosIterator: number = 0.0;
         
@@ -43,7 +44,6 @@ export default class HeadPositionSim extends PingPongBuffer {
             const x: number = ((Math.random() * 2.0) - 1.0) * 150.0;
             const y: number = ((Math.random() * 2.0) - 1.0) * 150.0;
             const z: number = ((Math.random() * 2.0) - 1.0) * 150.0;
-
 
             for(let u = 0; u < this.width; u++) {
 

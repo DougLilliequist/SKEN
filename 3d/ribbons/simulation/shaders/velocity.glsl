@@ -51,7 +51,7 @@ vec3 seek(in vec3 target, in vec3 pos, in vec3 vel, float s, float f, float k) {
 
 }
 
-vec3 seekwDesired(in vec3 desired, in vec3 vel, float s,  float f, float k) {
+vec3 seekwDesired(in vec3 desired, in vec3 vel, float s, float f, float k) {
 
     vec3 desiredVel = normalize(desired) * s;
     vec3 steerForce = desiredVel - vel;
@@ -68,8 +68,8 @@ float isEqual(vec3 a, vec3 b) {
 
 void main() {
 
-    vec3 pos = texture2D(uPos, vec2(0.5, vUV.y)).xyz;
-    vec3 vel = texture2D(uVel, vec2(0.5, vUV.y)).xyz;
+    vec3 pos = texture2D(uPos, vec2(0.0, vUV.y)).xyz;
+    vec3 vel = texture2D(uVel, vec2(0.0, vUV.y)).xyz;
 
     vec3 acc = vec3(0.0);
 
@@ -81,8 +81,11 @@ void main() {
     vec3 alignment = vec3(0.0);
     vec3 cohesion = vec3(0.0);
 
-    for(float v = 0.0; v < float(RIBBONCOUNT); v++) {
+    float separationDistSq = uSeparationDist * uSeparationDist;
+    float alignDistSq = uAlignDist * uAlignDist;
+    float cohesionDistSq = uCohesionDist * uCohesionDist;
 
+    for(float v = 0.0; v < float(RIBBONCOUNT); v++) {
             //don't sample the same texel!           
             float vFloor = floor(v);
             float uvYFloor = floor(vUV.y * float(RIBBONCOUNT)); 
@@ -91,10 +94,6 @@ void main() {
             vec2 coord = vec2(0.5, ((vFloor + 0.5) / float(RIBBONCOUNT)));
 
             vec3 otherPos = texture2D(uPos, coord).xyz;
-
-            float separationDistSq = uSeparationDist * uSeparationDist;
-            float alignDistSq = uAlignDist * uAlignDist;
-            float cohesionDistSq = uCohesionDist * uCohesionDist;
 
             vec3 dir = otherPos - pos;
             float distSq = dot(dir, dir);
@@ -109,9 +108,15 @@ void main() {
 
             } else if(distSq < alignDistSq) {
 
-                vec3 velOther = texture2D(uVel, coord).xyz;
-                alignment += velOther;
-                alignCount++;
+                vec3 otherVel = texture2D(uVel, coord).xyz;
+                vec3 avgVel = 0.5 * (otherVel + vel);
+                
+                if(dot(avgVel, avgVel) > 0.0) {
+
+                    alignment += otherVel;
+                    alignCount++;
+
+                }
 
             } else if(distSq < cohesionDistSq) {
 
@@ -122,31 +127,47 @@ void main() {
 
     }
         
-    float applySeparation = smoothstep(0.0, 1.0, separateCount);
-    separation *= (1.0 / separateCount);
-    vec3 separationForce = seekwDesired(separation, vel, uSeparationSpeed, uSeparationForce, uSeparationK);
-    acc -= separationForce * applySeparation;
+    if(separateCount > 0.0) {        
+     
+        separation *= (1.0 / separateCount);
+        vec3 separationForce = seekwDesired(separation, vel, uSeparationSpeed, uSeparationForce, uSeparationK);
+        acc -= separationForce;
     
-    float applyAlignment = smoothstep(0.0, 1.0, alignCount);
-    alignment *= (1.0 / alignCount);
-    vec3 alignmentForce = seekwDesired(alignment, vel, uAlignSpeed, uAlignForce, uAlignmentK);
-    acc += alignmentForce * applyAlignment;
-    
-    float applyCohesion = smoothstep(0.0, 1.0, cohesionCount);
-    cohesion *= (1.0 / cohesionCount);
-    vec3 cohesionForce = seek(cohesion, pos, vel, uCohesionSpeed, uCohesionForce, uCohesionK);
-    acc += cohesionForce * applyCohesion;
-    
-    float applyCorrectionForce = step((uBounds * uBounds), dot(pos, pos));
-    float correctionForceK = dot(pos, pos) - (uBounds * uBounds);
-    vec3 target = normalize(pos) * correctionForceK;
-    acc -= seek(target, pos, vel, uCorrectionSpeed, uCorrectionForce, uCorrectionK) * applyCorrectionForce;
+    }
+        
+    if(alignCount > 0.0) {
+        
+        alignment *= (1.0 / alignCount);
+        vec3 alignmentForce = seekwDesired(alignment, vel, uAlignSpeed, uAlignForce, uAlignmentK);
+        acc += alignmentForce;
 
-    float applyDivergence = step(dot(uTarget - pos, uTarget - pos), (100.0 * 100.0));    
-    vec3 up = cross(uTarget - pos, vec3(1.0, 0.0, 0.0));
-    vec3 divergence = cross(uTarget - pos, up);
-    divergence.x *= normalize(pos).x;
-    // acc += seek(divergence, pos, vel, uDivergenceSpeed, uDivergenceForce, uDivergenceK) * applyDivergence;
+    }
+    
+    if(cohesionCount > 0.0) {
+        
+        cohesion *= (1.0 / cohesionCount);
+        vec3 cohesionForce = seek(cohesion, pos, vel, uCohesionSpeed, uCohesionForce, uCohesionK);
+        acc += cohesionForce;
+
+    }
+    
+    // float applyCorrectionForce = step((uBounds * uBounds), dot(pos, pos));
+    if(dot(pos, pos) > (uBounds * uBounds)) {
+        
+        float correctionForceK = dot(pos, pos) - (uBounds * uBounds);
+        vec3 target = normalize(pos) * correctionForceK;
+        acc -= seek(target, pos, vel, uCorrectionSpeed, uCorrectionForce, uCorrectionK);
+    
+    }
+
+    if(dot(uTarget - pos, uTarget - pos) < (100.0, 100.0)) {
+
+        vec3 up = cross(uTarget - pos, vec3(1.0, 0.0, 0.0));
+        vec3 divergence = cross(uTarget - pos, up);
+        divergence.x *= normalize(pos).x;
+        acc += seek(divergence, pos, vel, uDivergenceSpeed, uDivergenceForce, uDivergenceK);
+
+    }
     
     acc += seek(uTarget, pos, vel, uSteerSpeed, uSteerForce, uSteerK);
 

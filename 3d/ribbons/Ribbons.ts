@@ -8,12 +8,12 @@ import Simulator from './simulation/Simulator';
 import eventEmitter from '../../utils/emitter';
 const emitter = eventEmitter.emitter;
 
-    export default class LightsGPU extends Mesh {
+    export default class Ribbons extends Mesh {
 
     private ribbonCount: number;
     private segmentCount: number;
 
-    private simulator: Simulator;
+    public simulator: Simulator;
 
     constructor(renderer: any, ribbonCount: number, isMobile: boolean = false) {
 
@@ -67,6 +67,12 @@ const emitter = eventEmitter.emitter;
     set positions(data: WebGLRenderTarget | Texture) {
 
         (<RawShaderMaterial>this.material).uniforms['uPosition'].value = data;
+
+    }
+
+    get headPositions() {
+
+        return this.simulator.headPositions;
 
     }
 
