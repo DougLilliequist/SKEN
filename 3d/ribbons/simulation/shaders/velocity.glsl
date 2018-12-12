@@ -94,6 +94,7 @@ void main() {
             vec2 coord = vec2(0.5, ((vFloor + 0.5) / float(RIBBONCOUNT)));
 
             vec3 otherPos = texture2D(uPos, coord).xyz;
+            // if(pos == otherPos) continue;
 
             vec3 dir = otherPos - pos;
             float distSq = dot(dir, dir);
@@ -108,10 +109,15 @@ void main() {
 
             } else if(distSq < alignDistSq) {
 
+                //TO MAKE THINGS EVEN MORE WEIRD, I NEED TO CHECK IF THE AVARAGE VELOCITY BETWEEN
+                // CURRENT BOID AND NEIGHBOUR BOID BEFORE ADDING THE NEIGHBOUR VELOCITY TO THE ALIGNMENT VECTOR
+
+                //MY GUESS: PERHAPS IT'S COMPARING WITH THE INITIAL VELOCITIES AND THEN IGNORES ALL INCOMING DATA?
+
                 vec3 otherVel = texture2D(uVel, coord).xyz;
                 vec3 avgVel = 0.5 * (otherVel + vel);
                 
-                if(dot(avgVel, avgVel) > 0.0) {
+                if(dot(otherVel, otherVel) > 0.0) {
 
                     alignment += otherVel;
                     alignCount++;
@@ -126,6 +132,9 @@ void main() {
             }
 
     }
+
+    //FOR REASONS UNKNOWN, USING IF ELSE MAKES EVERYHING WORK
+    //USING STEP / SMOOTHSTEP WORKS ONLY ON SEPARATION AND COHESION, BUT NOT ALIGNMENT
         
     if(separateCount > 0.0) {        
      
@@ -151,7 +160,6 @@ void main() {
 
     }
     
-    // float applyCorrectionForce = step((uBounds * uBounds), dot(pos, pos));
     if(dot(pos, pos) > (uBounds * uBounds)) {
         
         float correctionForceK = dot(pos, pos) - (uBounds * uBounds);
