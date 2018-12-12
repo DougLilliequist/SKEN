@@ -151,7 +151,6 @@ void main() {
 
     }
     
-    // float applyCorrectionForce = step((uBounds * uBounds), dot(pos, pos));
     if(dot(pos, pos) > (uBounds * uBounds)) {
         
         float correctionForceK = dot(pos, pos) - (uBounds * uBounds);

@@ -8,8 +8,6 @@ import OrbitControls from '../utils/OrbitControls';
 import Ribbons from './ribbons/Ribbons';
 import Target from './target/Target';
 
-import RenderQuad from '../utils/renderQuad/RenderQuad';
-
 const bowser = require('bowser');
 import eventEmitter from '../utils/emitter';
 const emitter = eventEmitter.emitter;
@@ -43,7 +41,6 @@ export default class World3D {
         this.init();
         this.initScene();
         this.initribbons();
-        this.initTest();
         this.initPost();
         this.initEvents();
 
@@ -82,15 +79,6 @@ export default class World3D {
         this.renderer = renderer;
         this.renderer.init();
 
-        var gl = this.renderer.getContext();
-
-        // var floatTextures = gl.getExtension('OES_texture_float');
-        // if (!floatTextures) {
-        // alert('no floating point texture support');
-        // return;
-        // }
-
-
         this.scene = new THREE.Scene();
 
         this.camera = new THREE.PerspectiveCamera(35, this.width / this.height, 0.1, 20000);
@@ -116,75 +104,9 @@ export default class World3D {
 
     }
 
-    private initTest(): void {
-
-        // this.testQuad = new RenderQuad(20, 20);
-
-        const geo: THREE.PlaneBufferGeometry = new THREE.PlaneBufferGeometry(20, 20, 1.0, 1.0);
-
-        const u = {
-
-            uTex: {type: 't', value: null},
-            uAspectRatio: {type: 'f', value: this.width / this.height}
-
-        }
-
-        const vShader: string = `
-        
-        uniform float uAspectRatio;
-
-        varying vec2 vUV;
-
-        void main() {
-
-            vec2 pos = position.xy;
-
-            pos.x /= uAspectRatio;
-
-            pos.x -= 30.0;
-            pos.y -= 20.0;
-            pos *= 0.025;
-
-            gl_Position = vec4(vec3(pos, 0.0), 1.0);
-            vUV = uv;
-
-        }
-        
-        `;
-
-        const fShader: string = `
-
-            precision mediump float;
-        
-            uniform sampler2D uTex;
-            
-            varying vec2 vUV;
-
-            void main() {
-
-                vec3 outPut = texture2D(uTex, vUV).xyz;
-                gl_FragColor = vec4(outPut, 1.0);
-
-            }
-
-        `
-        
-        const mat: THREE.ShaderMaterial = new THREE.ShaderMaterial({uniforms: u, vertexShader: vShader, fragmentShader: fShader})
-        mat.transparent = false;
-        mat.depthTest = false;
-        mat.depthWrite = false;
-
-        this.testQuad = new THREE.Mesh(geo, mat);
-
-        (<THREE.ShaderMaterial>this.testQuad.material).uniforms['uTex'].value = this.ribbons.headPositions;
-
-        this.scene.add(this.testQuad);
-
-    }
-
     private initPost(): void {
 
-        this.renderToScreen = true;
+        this.renderToScreen = false;
         this.post = new Post(this.width, this.height);
 
     }
@@ -237,7 +159,6 @@ export default class World3D {
         }
 
         this.ribbons.update(this.renderer, this.target.position, t);
-        (<THREE.ShaderMaterial>this.testQuad.material).uniforms['uTex'].value = this.ribbons.headPositions;
                 
         this.render();
 
