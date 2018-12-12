@@ -15,6 +15,6 @@ void main() {
         // vec3 lightCol = vec3(1.0);
     float phase = smoothstep(1.0, 0.0, vUV.x);
    
-    gl_FragColor = vec4(lightCol, 1.0);
+    gl_FragColor = vec4(lightCol, phase);
 
 }
